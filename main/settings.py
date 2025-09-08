@@ -31,7 +31,7 @@ SECRET_KEY = 'django-insecure-*d7*44^rimkik^wj@d_u3(63cqb2x1_-$8m1x$9ei5-l3x73y8
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    '127.0.0.1',
+    '*',
     'localhost',
     'mgasa.pythonanywhere.com',
     ]
