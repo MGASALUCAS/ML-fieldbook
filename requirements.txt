@@ -12,6 +12,7 @@ networkx
 numpy
 packaging
 pillow
+gunicorn
 pyparsing
 python-dateutil
 python-docx
