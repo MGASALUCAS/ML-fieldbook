@@ -1,7 +1,7 @@
 
 # 🌿 ML(fieldbook) — Aided Logbook Entry Helper
 
-**ML(fieldbook)** is an open-source web application designed to simplify and enhance the logbook experience for students undergoing **practical training**. Originally built for students at the **University of Dar es Salaam**, it helps reduce the burden of manual entry and lets students focus on learning, not formatting.
+**ML(fieldbook)** is an open-source web application designed to simplify and enhance the logbook experience for students undergoing **practical training**. It helps reduce the burden of manual entry and lets students focus on learning, not formatting.
 
 Whether you're tracking engineering projects, documenting lab work, or organizing weekly progress, ML(fieldbook) provides a structured, intuitive, and beautiful interface to help you **log your learning** — efficiently and meaningfully.
 

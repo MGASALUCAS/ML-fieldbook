@@ -99,12 +99,12 @@ def create_practical_training_log_book(
     doc = Document()
 
     # Title
-    title = doc.add_heading("UNIVERSITY OF DAR ES SALAAM", level=1)
+    title = doc.add_heading("NAME OF MY UNIVERISTY", level=1)
     title.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
 
     # College and Department
     college_heading = doc.add_heading(
-        "COLLEGE OF INFORMATION AND COMMUNICATION TECHNOLOGIES", level=2
+        "COLLEGE OF MY UNIVERITY", level=2
     )
     college_heading.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
     department = doc.add_heading(f"DEPARTMENT OF {department}", level=2)
