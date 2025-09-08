@@ -1,0 +1,181 @@
+{% extends 'logbook/includes/base.html' %}
+{% load static %}
+
+<!-- main block -->
+{% block main_block %}
+    <div class="wrapper">
+        <div class="main">
+            <div class="section">
+                <div class="container">
+                    {% if metadata.print_state and logbook.is_submitted is False %}
+                        <div class="alert alert-primary alert-with-icon">
+                            <button type="button" aria-hidden="true" class="close" data-dismiss="alert" aria-label="Close">
+                            <i class="tim-icons icon-simple-remove"></i>
+                            </button>
+                            <span data-notify="icon" class="tim-icons icon-bell-55"></span>
+                            <span>
+                            <b> Your logbook is ready to download !! </span>
+                        </div>
+                    {% endif %}
+                    <div class="row justify-content-between align-items-center">
+                        <div class="col-lg-5 mb-5 mb-lg-0 ">
+                            <h1 class="text-white font-weight-light">Logbook - Week {{logbook.week_number}}</h1>
+                            <h4 class="text-warning font-weight-light">Main Operation Summary</h4>
+                            <p class="text-white mt-4">
+                                {% if metadata.week_operations is None or metadata.week_operation_count == 0%}
+                                    <div class="alert alert-danger alert-with-icon">
+                                        <button type="button" aria-hidden="true" class="close" data-dismiss="alert" aria-label="Close">
+                                        <i class="tim-icons icon-simple-remove"></i>
+                                        </button>
+                                        <span data-notify="icon" class="tim-icons icon-bell-55"></span>
+                                        <span>Hi there! your week operations are empty!. <br>Before Printing please mention your week operations and tools used </span>
+                                    </div>
+                                {% else %}
+                                    {% for operation in metadata.week_operations %}
+                                        <span class="font-weight-light">● {{operation}}</span> <br>
+                                    {% endfor %}
+                                {% endif %}     
+                            </p>
+                            <a href="{% url 'operations_list' logbook.id %}" class="btn btn-primary mt-4 btn-sm">Week Operations & Diagram</a>
+                            {% if metadata.entry_count == 0 %}
+                            <a href="{% url 'entry_batch_create' logbook.id %}" class="btn btn-neutral mt-4 btn-sm">Create Entries</a>
+                            {% else %}
+                            <a href="{% url 'logbook_generate' logbook.id %}" class="btn btn-success mt-4 btn-sm">Print</a>
+                            {% endif %}
+                        </div>
+
+                        <div class="col-lg-5 mb-5 mb-lg-0">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="progress-container progress-primary">
+                                        <span class="progress-badge">Entries</span>
+                                        <div class="progress">
+                                            <div class="progress-bar progress-bar-warning" role="progressbar"
+                                                aria-valuenow="{{ metadata.percentage }}" aria-valuemin="0" aria-valuemax="100"
+                                                style="width: {{ metadata.percentage }}%;">
+                                                <span class="progress-value">({{ metadata.updated_entries }}/5) - {{ metadata.percentage }}%</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- table to show start and end date -->
+                                    <div class="table mt-5">
+                                        <table class="table tablesorter rounded" id="">
+                                            <thead class=" text-primary">
+                                                <tr>
+                                                    <th class="text-center">
+                                                        Start Date
+                                                    </th>
+                                                    <th class="text-center">
+                                                        End Date
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td class="text-center">
+                                                        {{logbook.from_date}}
+                                                    </td>
+                                                    <td class="text-center">
+                                                        {{logbook.to_date}}
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                    <!-- table to show next reminder (time and date) and is_approved  -->
+                                    <div class="table">
+                                        <table class="table tablesorter rounded" id="">
+                                            <thead class=" text-primary">
+                                                <tr>
+                                                    <th class="text-center">
+                                                        Next Reminder
+                                                    </th>
+                                                    <th class="text-center">
+                                                        Print Status
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td class="text-center">
+                                                        "Not avaliable"
+                                                    </td>
+                                                    <td class="text-center">
+                                                        {% if metadata.print_state %}
+                                                        <span class="badge badge-success p-2 font-weight-light">Ready to Print🎉</span>
+                                                        {% else %}
+                                                        <span class="badge badge-danger p-2 font-weight-light">pending entry updates🕔</span>
+                                                        {% endif %}
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container-fluid" id="entries">
+                
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <h1 class="font-weight-light text-white">
+                                <span>Entries</span>
+                            </h1>
+                        </div>
+                    </div>
+                    {% if metadata.entry_count == 0 %}
+                        <div class="alert alert-success alert-with-icon">
+                            <button type="button" aria-hidden="true" class="close" data-dismiss="alert" aria-label="Close">
+                            <i class="tim-icons icon-simple-remove"></i>
+                            </button>
+                            <span data-notify="icon" class="tim-icons icon-bell-55"></span>
+                            <span>
+                            <b> New Logbook </b> Create weekentries from the button above </span>
+                        </div>
+                    {% else %}
+                        {% for entry in metadata.entries %}
+                            <hr class="bg-primary p-1">
+                            <!-- start Entry -->
+                            <div class="row">
+                                <div class="col-md-4 col-lg-3">
+                                    <div class="card">
+                                        <div class="card-body justify-content-center align-items-center">
+                                            <!-- Entry day and date -->
+                                            <h4 class="font-weight-light mb-3">{{entry.day}}</h4>
+                                            <p class="font-weight-light display-6 text-primary">{{entry.date}}</p>
+                                            <!-- end table day date -->
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-8 col-lg-9">
+                                    <div class="card">
+                                        <!-- Entry content -->
+                                        <div class="card-body">
+                                            <p>
+                                                {{entry.activity}}
+                                            </p>
+                                            <a href="{% url 'entry_update' logbook.id entry.id %}" class="btn btn-neutral btn-round mt-2 btn-sm float-right" style="font-size: 12px;">Update</a>
+                                        </div>
+                                        <!-- end entry content -->
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- end entry -->
+                            {% endfor %}
+                    {% endif %}
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock main_block %}
+<!-- end main block-->
+    

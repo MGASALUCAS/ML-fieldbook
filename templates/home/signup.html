@@ -1,0 +1,70 @@
+{% load static %}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ML(fieldbook) - Register</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Zen+Maru+Gothic:wght@300;400&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="{% static 'home/assets/styles.css' %}" type="text/css">
+</head>
+
+<body>
+    <header class="fixed-header">
+        <a href="/" class="header-logo">ML(fieldbook)</a>
+        <a href="/" class="home-icon" aria-label="Home">🏠</a>
+    </header>
+
+    <section class="scene scene-6" id="auth-flow">
+        <div class="auth-petal-bg"></div>
+        <div class="auth-scene" id="register-section">
+            <div class="auth-text">
+                <h2 class="auth-title">Begin your path.</h2>
+                <p class="auth-subtitle">It only takes a few steps to start.</p>
+            </div>
+            <form class="auth-form" method="post">
+                {% csrf_token %}
+                <div class="input-group">
+                    <input type="text" id="register-username" placeholder="Username" class="auth-input" name="username">
+                    <span class="underline-effect"></span>
+                </div>
+                <div class="input-group">
+                    <input type="email" id="register-email" placeholder="e.g. mgasa.loucat1@gmail.com" name="email"
+                        class="auth-input">
+                    <span class="underline-effect"></span>
+                </div>
+                <div class="input-group">
+                    <input type="password" id="register-password" placeholder="Create a secure password" name="password"
+                        class="auth-input">
+                    <span class="underline-effect"></span>
+                </div>
+                <div class="input-group">
+                    <input type="password" id="register-confirm-password" placeholder="Confirm Password"
+                        class="auth-input">
+                    <span class="underline-effect"></span>
+                </div>
+                <!-- form errors -->
+                {% if form_errors %}
+                <div class="form-errors">
+                    <p class="scroll-link">{{ form_errors }}</p>
+                </div>
+                {%endif%}
+                <button type="submit" class="btn primary auth-btn">Create My Logbook</button>
+            </form>
+            <div class="auth-micro-text">
+                <a href="/login" class="scroll-link">Already have an account?</a>
+                <a href="/reset-pwd" class="scroll-link">Trouble logging in?</a>
+            </div>
+        </div>
+    </section>
+
+
+    {% include 'home/includes/footer.html' %}
+</body>
+
+</html>

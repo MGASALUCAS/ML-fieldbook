@@ -1,0 +1,61 @@
+{% load static%}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ML(fieldbook) - Login</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Zen+Maru+Gothic:wght@300;400&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="{% static 'home/assets/styles.css' %}" type="text/css">
+</head>
+
+<body>
+    <header class="fixed-header">
+        <a href="/" class="header-logo">ML(fieldbook)</a>
+        <a href="/" class="home-icon" aria-label="Home">🏠</a>
+    </header>
+
+    <section class="scene scene-6" id="auth-flow">
+        <div class="auth-petal-bg"></div>
+        <div class="auth-scene" id="login-section">
+            <div class="auth-text">
+                <h2 class="auth-title">Welcome back.</h2>
+                <p class="auth-subtitle">Your journey continues here.</p>
+            </div>
+            <form class="auth-form" method="post">
+                {% csrf_token %}
+                <div class="input-group">
+                    <input type="text" name="email" id="login-username" placeholder="Username or Email"
+                        class="auth-input">
+                    <span class="underline-effect"></span>
+                </div>
+                <div class="input-group">
+                    <input type="password" name="password" id="login-password" placeholder="Password"
+                        class="auth-input">
+                    <span class="underline-effect"></span>
+                </div>
+                <!-- form errors -->
+                {% if form_errors %}
+                <div class="form-errors">
+                    <p class="scroll-link">{{ form_errors }}</p>
+                </div>
+                {%endif%}
+                <button type="submit" class="btn primary auth-btn">Log In</button>
+            </form>
+            <div class="auth-micro-text">
+                <a href="/reset-pwd" class="scroll-link">Forgot your password?</a>
+                <a href="/signup" class="scroll-link">Don't have an account?</a>
+            </div>
+        </div>
+    </section>
+
+
+    {% include 'home/includes/footer.html' %}
+</body>
+
+</html>

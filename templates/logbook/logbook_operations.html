@@ -1,0 +1,105 @@
+{% extends 'logbook/includes/base.html' %}
+{% load static %}
+
+<!-- main block -->
+{% block main_block %}
+
+    <div class="wrapper">
+
+        <div class="main">
+            <div class="section">
+                <div class="container">
+                    <div class="row mt-2">
+                        <div class="col-12 text-right">
+                            <a href="{% url 'logbook_detail' logbook.id %}" class="btn btn-sm"> <i class="fa fa-arrow-back"></i>Back</a>
+                            <a href="{% url 'diagram_update' logbook.id %}" class="btn btn-sm"> <i class="fa fa-edit"></i>Update Activity Diagram</a>
+                            <a href="{% url 'operations_create' logbook.id %}" class="btn btn-sm"> <i class="fa fa-plus"></i> Add Operation</a>
+                        </div>
+                    </div>
+                    <div class="row justify-content-between">
+                        <!-- btn to add operation-->
+                        
+                        <div class="col-lg-6">
+                            <div class="card card-plain">
+                                <div class="card-body">
+                                    <h1 class="font-weight-light">Week Operations</h1>
+                                    <h4 class="font-weight-light text-warning">Logbook week - {{logbook.week_number}}</h4>
+                                    
+                                    <div class="row">
+                                        {% if operation_count == 0 %}
+                                        <div class="alert alert-danger alert-with-icon">
+                                            <button type="button" aria-hidden="true" class="close" data-dismiss="alert" aria-label="Close">
+                                            <i class="tim-icons icon-simple-remove"></i>
+                                            </button>
+                                            <span data-notify="icon" class="tim-icons icon-bell-55"></span>
+                                            <span>Hi there! your week operations are empty <br><br><a href="{% url 'operations_create' logbook.id %}" class="font-weight-bold text-info"> <i class="fa fa-plus"></i> Add Here</a> </span>
+                                        </div>
+                                        {% else %}
+                                            {% for operation in week_operations %}
+                                                <div class="col-12">
+                                                    <div class="card">
+                                                        <div class="card-header">
+                                                            <h5 class="font-weight-light text-primary">Operation</h5>
+                                                            <p class="font-weight-light text-secondary">
+                                                            {{operation.operation}}
+                                                            </p>
+                                                        </div>
+                                                        <div class="card-body">
+                                                            <h5 class="font-weight-light text-primary">Machinery</h5>
+                                                            <p class="font-weight-light text-secondary">
+                                                            {{operation.machinery}}
+                                                            </p>
+
+                                                            <!-- edit and delete buttons-->
+                                                            <div class="row mt-2">
+                                                                <div class="col-12 text-right">
+                                                                    <a href="{% url 'operations_edit' logbook.id operation.id %}" class="text-primary btn btn-sm"> <i class="fa fa-edit"></i> Edit</a>
+
+                                                                    <a href="{% url 'operations_delete' logbook.id operation.id %}" class="btn text-danger btn-sm"><i class="fa fa-trash"></i> Dispose</a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            {% endfor %}
+                                        {% endif %}
+                                        
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="col-lg-6">
+                            <div class="card card-plain">
+                                <div class="card-body">
+                                    <h2 class="font-weight-light">Activity Diagram</h2>
+                                    <img src="/media/{{logbook.activity_diagram}}" alt="Activity Diagram" class="img-fluid rounded", id="logbook_diagram">
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+    <script>
+        const logbookDiagram = document.getElementById('logbook_diagram');
+    
+        function checkImageExists(imageUrl, imageElement) {
+            const img = new Image();
+            img.src = imageUrl;
+            img.onload = function() {
+                imageElement.src = imageUrl;
+                imageElement.style.display = 'block';
+            };
+            img.onerror = function() {
+                imageElement.style.display = 'none';
+            };
+        }
+
+        {% comment %} checkImageExists('/media/{{logbook.activity_diagram}}', logbookDiagram); {% endcomment %}
+    </script>
+{% endblock main_block %}
